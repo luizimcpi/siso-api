@@ -1,0 +1,39 @@
+micronaut:
+  application:
+    name: siso
+  security:
+    endpoints:
+      login:
+        enabled: true
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: ${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}
+datasources:
+  default:
+    driverClassName: org.postgresql.Driver
+    db-type: postgresql
+    url: jdbc:postgresql://localhost:5432/siso
+    username: 'postgres'
+    password: 'postgres'
+    dialect: POSTGRES
+jpa:
+  default:
+    packages-to-scan:
+      - 'com.siso'
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: none
+        show_sql: true
+flyway:
+  datasources:
+    default:
+      enabled: true
+netty:
+  default:
+    allocator:
+      max-order: 3
