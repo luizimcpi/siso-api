@@ -2,6 +2,7 @@ package com.siso.service
 
 import com.siso.configuration.BCryptPasswordEncoderService
 import com.siso.model.entity.CustomUser
+import com.siso.model.entity.RolesConstants.ROLE_USER
 import com.siso.repository.RoleRepository
 import com.siso.repository.UserRepository
 import com.siso.web.dto.request.UserRequest
@@ -18,7 +19,7 @@ class UserService(private val userRepository: UserRepository,
     }
 
     fun save(userRequest: UserRequest): CustomUser {
-        val roleUser = roleRepository.findByName("ROLE_USER")
+        val roleUser = roleRepository.findByName(ROLE_USER)
 
         val user = CustomUser(
             email = userRequest.email,

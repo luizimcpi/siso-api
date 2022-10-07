@@ -12,4 +12,4 @@ CREATE TABLE public.users
 
 INSERT INTO public.users
 (id, email, "password", active, password_reset, role, created_at, updated_at)
-VALUES('75d7b8f7-549e-490f-a55d-985380f02ffe'::uuid, 'luizimcpi@gmail.com', '$2a$10$fdZA8mIfRDub5.P25N/Nk.T35D5Uswhq9S6e6tcTchiF1JidK7udu', true, false, 'bb927857-e7d5-4422-8572-e4e53195203e', now(), now());
+VALUES('75d7b8f7-549e-490f-a55d-985380f02ffe'::uuid, 'luizimcpi@gmail.com', '$2a$10$YaeJpu.AFRQZ4pVvJt63FuGnBP/oSfkkBuCPSbQnihUGvSgh49pwe', true, false, 'bb927857-e7d5-4422-8572-e4e53195203e', now(), now());

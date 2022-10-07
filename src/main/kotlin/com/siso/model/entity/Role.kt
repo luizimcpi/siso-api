@@ -18,7 +18,6 @@ data class Role (
     val id: UUID? = null,
 
     @Column
-//    @Enumerated(value = EnumType.STRING)
-    val name: String,
+    val name: String
 
 )
