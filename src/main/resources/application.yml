@@ -16,9 +16,9 @@ datasources:
   default:
     driverClassName: org.postgresql.Driver
     db-type: postgresql
-    url: jdbc:postgresql://localhost:5432/siso
-    username: 'postgres'
-    password: 'postgres'
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/siso}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
     dialect: POSTGRES
 jpa:
   default:

@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  app:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    image: siso-api
+    environment:
+      - DATABASE_URL=jdbc:postgresql://database:5432/postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+    container_name: siso-api-app
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+  database:
+    restart: always
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    container_name: database
+    ports:
+      - 5433:5432

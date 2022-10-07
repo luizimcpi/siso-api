@@ -8,7 +8,7 @@ plugins {
     id("io.micronaut.test-resources") version "3.6.2"
 }
 
-version = "0.1"
+version = "1.0.0"
 group = "com.siso"
 
 val kotlinVersion= project.properties["kotlinVersion"]

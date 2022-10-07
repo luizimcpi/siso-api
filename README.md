@@ -1,3 +1,4 @@
+# SISO-API
 ## Micronaut 3.7.1 Documentation
 
 - [User Guide](https://docs.micronaut.io/3.7.1/guide/index.html)
@@ -47,6 +48,12 @@
 - [Micronaut Flyway Database Migration documentation](https://micronaut-projects.github.io/micronaut-flyway/latest/guide/index.html)
 
 - [https://flywaydb.org/](https://flywaydb.org/)
+
+
+## RUN THIS APP
+```
+docker-compose up
+```
 
 ## Requests
 
