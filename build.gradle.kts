@@ -35,6 +35,7 @@ dependencies {
     implementation("commons-logging:commons-logging:1.2")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+    implementation("io.micronaut:micronaut-management")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.testcontainers:junit-jupiter")
