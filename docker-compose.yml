@@ -1,4 +1,10 @@
-version: '3.4'
+version: '3.7'
+
+networks:
+  network-siso:
+    driver: bridge
+    attachable: true
+
 services:
   app:
     build:
@@ -9,11 +15,15 @@ services:
       - DATABASE_URL=jdbc:postgresql://database:5432/postgres
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
+      - ELASTIC_SEARCH_HOSTS=http://elasticsearch:9200
     container_name: siso-api-app
     ports:
       - 9001:9001
     depends_on:
       - database
+      - elasticsearch
+    networks:
+      - network-siso
   database:
     restart: always
     image: postgres:latest
@@ -22,3 +32,5 @@ services:
     container_name: database
     ports:
       - 5433:5432
+    networks:
+      - network-siso

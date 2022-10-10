@@ -36,6 +36,7 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
     implementation("io.micronaut:micronaut-management")
+    implementation("io.micronaut.elasticsearch:micronaut-elasticsearch")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.testcontainers:junit-jupiter")

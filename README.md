@@ -55,6 +55,13 @@
 docker-compose up
 ```
 
+## Elasticsearch
+```
+localhost:9200
+user: elastic
+pass: changeme
+```
+
 ## Requests
 
 ### Create User
