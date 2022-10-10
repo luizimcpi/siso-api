@@ -22,11 +22,11 @@ class UserPasswordAuthenticationProvider (private val passwordEncoder: BCryptPas
                               authenticationRequest: AuthenticationRequest<*, *>
     ): Publisher<AuthenticationResponse>? {
 
-        var user = userRepository.findByEmail(authenticationRequest?.identity as String).orElseThrow {
+        var user = userRepository.findByEmail(authenticationRequest.identity as String).orElseThrow {
             throw AuthenticationException(AuthenticationFailed("Usuário não encontrado com e-mail: ${authenticationRequest.identity} informado."))
         }
 
-        var userRole = roleRepository.findById(user.role.id).get().name
+        var userRole = roleRepository.findById(user.role.id!!).get().name
 
         return Flux.create({ emitter: FluxSink<AuthenticationResponse> ->
             if (authenticationRequest.identity == user.email &&

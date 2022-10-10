@@ -33,7 +33,7 @@ class UserController(private val userService: UserService) {
         log.info("Criando usuário com email: ${userRequest.email}")
         val user = userService.findByEmail(userRequest.email)
 
-        if(user!!.isPresent) {
+        if(user.isPresent) {
             log.warn("Usuário com email: ${userRequest.email} já existente.")
             throw ConflictException("Usuário já existente com e-mail: ${userRequest.email}.")
         }
