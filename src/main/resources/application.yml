@@ -1,6 +1,8 @@
 micronaut:
   application:
     name: siso
+  server:
+    port: 9001
   security:
     endpoints:
       login:

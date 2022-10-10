@@ -31,18 +31,13 @@ RUN gradle --no-daemon -x test build
 #
 # Java image for the application to run in.
 #
-FROM openjdk:11
+FROM adoptopenjdk/openjdk11
 
 #
 # Copy the jar file in and name it app.jar.
 #
 ARG BUILD_HOME
 ENV APP_HOME=$BUILD_HOME
-COPY --from=build-image $APP_HOME/build/libs/siso-1.0.0-all.jar app.jar
-EXPOSE 8080
+COPY --from=build-image $APP_HOME/build/libs/siso-*-all.jar app.jar
+EXPOSE 9001
 ENTRYPOINT ["java","-jar","app.jar"]
-
-#
-# The command to run when the container starts.
-#
-# ENTRYPOINT java -jar app.jar
