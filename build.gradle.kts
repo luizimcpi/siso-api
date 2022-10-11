@@ -45,6 +45,7 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.30")
 
 }
 
