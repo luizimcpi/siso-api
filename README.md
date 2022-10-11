@@ -57,9 +57,19 @@ docker-compose up
 
 ## Requests
 
+### Login
+```
+curl --location --request POST 'localhost:9001/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "teste@gmail.com",
+    "password": "Mudar@123"
+}'
+```
+
 ### Create User
 ```
-curl --location --request POST 'localhost:8080/users' \
+curl --location --request POST 'localhost:9001/users' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZUBnbWFpbC5jb20iLCJuYmYiOjE2NjUwOTQ5NjgsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJzaXNvIiwiZXhwIjoxNjY1MDk4NTY4LCJpYXQiOjE2NjUwOTQ5Njh9.i1DBIIFOMbVqk9vVCSoh6a9K3oZvJv8NV54yP31GfHQ' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -68,12 +78,12 @@ curl --location --request POST 'localhost:8080/users' \
 }'
 ```
 
-### Login
+### Refresh Token
 ```
-curl --location --request POST 'localhost:8080/login' \
+curl --location --request POST 'localhost:9001/oauth/access_token' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "username": "teste@gmail.com",
-    "password": "Mudar@123"
+    "grant_type": "refresh_token",
+    "refresh_token": "eyJhbGciOiJIUzI1NiJ9.YTY3MWUzNTktMWYxZC00ZTBkLWE1OWEtZWNmNmNkMTk0MDQz.0sdzFhdfTQfjzhk3rl4pnFxrrN_h5Wnsaek6oLiDruU"
 }'
 ```

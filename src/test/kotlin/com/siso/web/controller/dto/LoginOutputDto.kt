@@ -6,7 +6,9 @@ data class LoginOutputDto(
     val username: String,
     val roles: Collection<String>,
     @JsonAlias("access_token")
-    val token: String,
+    val accessToken: String,
+    @JsonAlias("refresh_token")
+    val refreshToken: String,
     @JsonAlias("token_type")
     val tokenType: String,
     @JsonAlias("expires_in")
