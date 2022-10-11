@@ -40,13 +40,5 @@ netty:
     allocator:
       max-order: 3
 
-elasticsearch:
-  httpHosts: "${ELASTIC_SEARCH_HOSTS}"
-
-endpoints:
-  health:
-    elasticsearch:
-      enabled: true
-
 jackson:
   date-format: yyyy-MM-dd HH:mm:ss
