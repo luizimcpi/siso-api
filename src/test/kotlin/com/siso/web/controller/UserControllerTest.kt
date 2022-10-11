@@ -47,7 +47,7 @@ class UserControllerTest {
         val responseLogin =  httpClient.toBlocking().exchange(requestLogin, Argument.listOf(LoginOutputDto::class.java))
 
         val loginOutputDto = responseLogin.body.get().first() as LoginOutputDto
-        accessToken = loginOutputDto.token
+        accessToken = loginOutputDto.accessToken
     }
 
     @AfterAll
@@ -82,7 +82,7 @@ class UserControllerTest {
             httpClient.toBlocking().exchange(request, Argument.listOf(UserResponse::class.java))
         }
 
-        assertEquals("Client '/': Usuário já existente com e-mail: teste@email.com.", thrown.message)
+        assertEquals("Client '/': Conflict", thrown.message)
         assertEquals(HttpStatus.CONFLICT, thrown.status)
     }
 
