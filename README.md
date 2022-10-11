@@ -70,7 +70,7 @@ curl --location --request POST 'localhost:9001/login' \
 ### Create User
 ```
 curl --location --request POST 'localhost:9001/users' \
---header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZUBnbWFpbC5jb20iLCJuYmYiOjE2NjUwOTQ5NjgsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiJzaXNvIiwiZXhwIjoxNjY1MDk4NTY4LCJpYXQiOjE2NjUwOTQ5Njh9.i1DBIIFOMbVqk9vVCSoh6a9K3oZvJv8NV54yP31GfHQ' \
+--header 'Authorization: Bearer {admin_token}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "email": "teste@gmail.com",
@@ -85,5 +85,18 @@ curl --location --request POST 'localhost:9001/oauth/access_token' \
 --data-raw '{
     "grant_type": "refresh_token",
     "refresh_token": "eyJhbGciOiJIUzI1NiJ9.YTY3MWUzNTktMWYxZC00ZTBkLWE1OWEtZWNmNmNkMTk0MDQz.0sdzFhdfTQfjzhk3rl4pnFxrrN_h5Wnsaek6oLiDruU"
+}'
+```
+
+### Create Customer
+```
+curl --location --request POST 'localhost:9001/customers' \
+--header 'Authorization: Bearer {user_token}' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "customer teste",
+    "document": "44444411111",
+    "email": "customer@gmail.com",
+    "birthDate": "1990-03-03"
 }'
 ```
