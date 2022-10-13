@@ -20,7 +20,3 @@ class NotFoundExceptionHandler :
         return HttpResponse.notFound()
     }
 }
-
-data class ErrorMessageResponse(
-    val message: String
-)
