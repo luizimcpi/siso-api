@@ -100,3 +100,15 @@ curl --location --request POST 'localhost:9001/customers' \
     "birthDate": "1990-03-03"
 }'
 ```
+
+### Find Customer By Id
+```
+curl --location --request GET 'localhost:9001/customers/1' \
+--header 'Authorization: Bearer {user_token}'
+```
+
+### Delete Customer By Id
+```
+curl --location --request DELETE 'localhost:9001/customers/1' \
+--header 'Authorization: Bearer {user_token}'
+```

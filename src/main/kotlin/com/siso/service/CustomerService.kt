@@ -38,4 +38,9 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         }
         throw NotFoundException("Customer not found with id $id")
     }
+
+    fun deleteByIdAndUserId(id: Long, userId: Long) {
+        findByIdAndUserId(id, userId)
+        customerRepository.deleteByIdAndUserId(id, userId)
+    }
 }
