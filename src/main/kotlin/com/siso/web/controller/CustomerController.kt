@@ -6,6 +6,8 @@ import com.siso.service.UserService
 import com.siso.web.dto.request.CustomerRequest
 import com.siso.web.dto.response.CustomerResponse
 import io.micronaut.core.annotation.Nullable
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
@@ -44,13 +46,13 @@ class CustomerController (private val userService: UserService,
 
     @Get
     @Secured(RolesConstants.ROLE_USER)
-    fun findAllbyUser(@Nullable principal: Principal): HttpResponse<List<CustomerResponse>> {
+    fun findAllbyUser(@Nullable principal: Principal, @Valid pageable: Pageable): HttpResponse<Page<CustomerResponse>> {
         log.info("Buscando usuário com email: ${principal.name} para recuperar lista de clientes")
         val user = userService.findByEmail(principal.name)
 
         if(user.isPresent) {
-            val customers = customerService.findAllByUser(user.get())
-            return if(customers.isEmpty()){
+            val customers = customerService.findAllByUser(user.get(), pageable)
+            return if(customers.totalSize == 0L){
                 HttpResponse.noContent()
             } else {
                 HttpResponse.ok(customers)

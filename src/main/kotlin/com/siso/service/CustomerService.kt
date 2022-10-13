@@ -7,6 +7,8 @@ import com.siso.model.entity.toCustomerResponse
 import com.siso.repository.CustomerRepository
 import com.siso.web.dto.request.CustomerRequest
 import com.siso.web.dto.response.CustomerResponse
+import io.micronaut.data.model.Page
+import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
 
 @Singleton
@@ -25,8 +27,8 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         return toCustomerResponse(savedCustomer)
     }
 
-    fun findAllByUser(user: CustomUser): List<CustomerResponse> {
-        return customerRepository.findAllByUser(user.id!!).map {
+    fun findAllByUser(user: CustomUser, pageable: Pageable): Page<CustomerResponse> {
+        return customerRepository.findByUserId(user.id!!, pageable).map {
             customer -> toCustomerResponse(customer)
         }
     }

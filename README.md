@@ -125,3 +125,9 @@ curl --location --request PUT 'localhost:9001/customers/1' \
     "birthDate": "2019-01-14"
 }'
 ```
+
+### Find all By UserId
+```
+curl --location --request GET 'localhost:9001/customers?size=20&page=0' \
+--header 'Authorization: Bearer {user_token}'
+```
