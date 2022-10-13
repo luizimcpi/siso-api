@@ -112,3 +112,16 @@ curl --location --request GET 'localhost:9001/customers/1' \
 curl --location --request DELETE 'localhost:9001/customers/1' \
 --header 'Authorization: Bearer {user_token}'
 ```
+
+### Update Customer By Id
+```
+curl --location --request PUT 'localhost:9001/customers/1' \
+--header 'Authorization: Bearer {user_token}' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "customer teste Alterado ",
+    "document": "11111111111 alterado",
+    "email": "customer-alterado@gmail.com",
+    "birthDate": "2019-01-14"
+}'
+```

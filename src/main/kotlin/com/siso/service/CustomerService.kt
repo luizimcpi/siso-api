@@ -43,4 +43,22 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         findByIdAndUserId(id, userId)
         customerRepository.deleteByIdAndUserId(id, userId)
     }
+
+    fun updateByIdAndUserId(id: Long, user: CustomUser, customerRequest: CustomerRequest): CustomerResponse {
+        val customer = customerRepository.findByIdAndUserId(id, user.id!!)
+        if(customer.isPresent){
+            val customerToUpdate = Customer(
+                id = id,
+                user = user,
+                name = customerRequest.name,
+                email = customerRequest.email,
+                document = customerRequest.document,
+                birthDate = customerRequest.birthDate,
+                createdAt = customer.get().createdAt
+            )
+            val updatedCustomer = customerRepository.update(customerToUpdate)
+            return toCustomerResponse(updatedCustomer)
+        }
+        throw NotFoundException("Customer not found with id $id")
+    }
 }

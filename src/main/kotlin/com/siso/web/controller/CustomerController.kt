@@ -12,6 +12,7 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
+import io.micronaut.http.annotation.Put
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import io.micronaut.validation.Validated
@@ -71,12 +72,26 @@ class CustomerController (private val userService: UserService,
     }
 
     @Delete("/{id}")
+    @Secured(RolesConstants.ROLE_USER)
     fun deleteById(id: Long, @Nullable principal: Principal): HttpResponse<Any> {
         log.info("Buscando usuário com email: ${principal.name} para deletar cliente com id $id")
         val user = userService.findByEmail(principal.name)
         if(user.isPresent) {
             user.get().id?.let { userId -> customerService.deleteByIdAndUserId(id, userId) }
             return HttpResponse.noContent()
+        }
+        return HttpResponse.unauthorized()
+    }
+
+    @Put("/{id}")
+    @Secured(RolesConstants.ROLE_USER)
+    fun updatebyId(id: Long,
+                   @Body @Valid customerRequest: CustomerRequest,
+                   @Nullable principal: Principal): HttpResponse<CustomerResponse> {
+        log.info("Buscando usuário com email: ${principal.name} para alterar cliente com id $id")
+        val user = userService.findByEmail(principal.name)
+        if(user.isPresent) {
+            return HttpResponse.ok(customerService.updateByIdAndUserId(id, user.get(), customerRequest))
         }
         return HttpResponse.unauthorized()
     }
