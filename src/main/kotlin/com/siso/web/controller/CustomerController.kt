@@ -56,4 +56,16 @@ class CustomerController (private val userService: UserService,
         }
         return HttpResponse.unauthorized()
     }
+
+    @Get("/{id}")
+    @Secured(RolesConstants.ROLE_USER)
+    fun findById(id: Long, @Nullable principal: Principal): HttpResponse<CustomerResponse> {
+        log.info("Buscando usuário com email: ${principal.name} para recuperar cliente com id $id")
+        val user = userService.findByEmail(principal.name)
+
+        if(user.isPresent) {
+            return HttpResponse.ok(user.get().id?.let { userId -> customerService.findByIdAndUserId(id, userId) })
+        }
+        return HttpResponse.unauthorized()
+    }
 }

@@ -1,5 +1,6 @@
 package com.siso.service
 
+import com.siso.exception.NotFoundException
 import com.siso.model.entity.CustomUser
 import com.siso.model.entity.Customer
 import com.siso.model.entity.toCustomerResponse
@@ -28,5 +29,13 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         return customerRepository.findAllByUser(user.id!!).map {
             customer -> toCustomerResponse(customer)
         }
+    }
+
+    fun findByIdAndUserId(id: Long, userId: Long): CustomerResponse {
+        val customer = customerRepository.findByIdAndUserId(id, userId)
+        if(customer.isPresent){
+            return toCustomerResponse(customer.get())
+        }
+        throw NotFoundException("Customer not found with id $id")
     }
 }
