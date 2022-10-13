@@ -25,7 +25,7 @@ class CustomerService(private val customerRepository: CustomerRepository) {
     }
 
     fun findAllByUser(user: CustomUser): List<CustomerResponse> {
-        return customerRepository.findAllByUser(user).map {
+        return customerRepository.findAllByUser(user.id!!).map {
             customer -> toCustomerResponse(customer)
         }
     }

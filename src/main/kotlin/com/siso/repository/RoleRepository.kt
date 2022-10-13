@@ -6,6 +6,6 @@ import io.micronaut.data.jpa.repository.JpaRepository
 import java.util.UUID
 
 @Repository
-interface RoleRepository: JpaRepository<Role, UUID> {
+interface RoleRepository: JpaRepository<Role, Long> {
     fun findByName(name: String): Role
 }
