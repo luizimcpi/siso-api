@@ -15,6 +15,7 @@ import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Put
+import io.micronaut.http.annotation.QueryValue
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
 import io.micronaut.validation.Validated
@@ -51,8 +52,31 @@ class CustomerController (private val userService: UserService,
         val user = userService.findByEmail(principal.name)
 
         if(user.isPresent) {
-            val customers = customerService.findAllByUser(user.get(), pageable)
-            return if(customers.totalSize == 0L){
+            val customers = user.get().id?.let {
+                    userId -> customerService.findAllByUser(userId, pageable)
+            }
+            return if(customers!!.totalSize == 0L){
+                HttpResponse.noContent()
+            } else {
+                HttpResponse.ok(customers)
+            }
+        }
+        return HttpResponse.unauthorized()
+    }
+
+    @Get("/search")
+    @Secured(RolesConstants.ROLE_USER)
+    fun findAllByName(@QueryValue name: String,
+                      @Nullable principal: Principal,
+                      @Valid pageable: Pageable): HttpResponse<Page<CustomerResponse>> {
+        log.info("Buscando usuário com email: ${principal.name} para recuperar clientes com nome $name")
+        val user = userService.findByEmail(principal.name)
+
+        if(user.isPresent) {
+            val customers = user.get().id?.let {
+                    userId -> customerService.findAllByUserAndName(userId, name, pageable)
+            }
+            return if(customers!!.totalSize == 0L){
                 HttpResponse.noContent()
             } else {
                 HttpResponse.ok(customers)

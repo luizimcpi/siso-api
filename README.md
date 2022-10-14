@@ -126,8 +126,14 @@ curl --location --request PUT 'localhost:9001/customers/1' \
 }'
 ```
 
-### Find all By UserId
+### Find all Customers By UserId
 ```
 curl --location --request GET 'localhost:9001/customers?size=20&page=0' \
+--header 'Authorization: Bearer {user_token}'
+```
+
+### Search By Customer Name
+```
+curl --location --request GET 'localhost:9001/customers/search?name=Maria' \
 --header 'Authorization: Bearer {user_token}'
 ```

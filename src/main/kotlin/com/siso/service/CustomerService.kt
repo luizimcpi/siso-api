@@ -10,11 +10,15 @@ import com.siso.web.dto.response.CustomerResponse
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import jakarta.inject.Singleton
+import org.slf4j.LoggerFactory
 
 @Singleton
 class CustomerService(private val customerRepository: CustomerRepository) {
 
+    private val log = LoggerFactory.getLogger(this::class.java)
+
     fun save(customerRequest: CustomerRequest, user: CustomUser): CustomerResponse {
+        log.info("Mapping customer request $customerRequest to entity ")
         val customer = Customer (
             user = user,
             name = customerRequest.name,
@@ -22,14 +26,23 @@ class CustomerService(private val customerRepository: CustomerRepository) {
             document = customerRequest.document,
             birthDate = customerRequest.birthDate
         )
+        log.info("Mapping customer request to entity $customer finished.")
         val savedCustomer = customerRepository.save(customer)
 
+        log.info("Customer has been saved $savedCustomer.")
         return toCustomerResponse(savedCustomer)
     }
 
-    fun findAllByUser(user: CustomUser, pageable: Pageable): Page<CustomerResponse> {
-        return customerRepository.findByUserId(user.id!!, pageable).map {
+    fun findAllByUser(userId: Long, pageable: Pageable): Page<CustomerResponse> {
+        return customerRepository.findByUserId(userId, pageable).map {
             customer -> toCustomerResponse(customer)
+        }
+    }
+
+    fun findAllByUserAndName(userId: Long, name: String, pageable: Pageable): Page<CustomerResponse> {
+        log.info("Finding all customers of userId $userId with name $name.")
+        return customerRepository.findByUserIdAndNameContains(userId, name, pageable).map {
+                customer -> toCustomerResponse(customer)
         }
     }
 
