@@ -4,6 +4,7 @@ import com.siso.web.controller.dto.LoginOutputDto
 import com.siso.web.dto.response.CustomerResponse
 import com.siso.web.dto.response.UserResponse
 import io.micronaut.core.type.Argument
+import io.micronaut.data.model.Page
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.MutableHttpRequest
@@ -15,7 +16,9 @@ import jakarta.inject.Inject
 import org.flywaydb.core.Flyway
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
@@ -175,26 +178,54 @@ class CustomerControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, thrown.status)
     }
 
-//    @Test
-//    @Order(7)
-//    fun `should find customers success when receive valid customerId and user token owner`(){
-//        val request: HttpRequest<*> = HttpRequest.GET<Any>("/customers").bearerAuth(userAccessToken)
-//        val response = httpClient.toBlocking().exchange(request, Argument.listOf(CustomerResponse::class.java))
-//
-//        assertNotNull(response)
-//        val customers = response.body.get().first() as Page<CustomerResponse>
-//        assertNotNull(customers)
-//        assertFalse(customers.isEmpty)
-//        assertFalse(customers.content.isEmpty())
-//        val customerResponse = customers.content[0]
-//        assertNotNull(customerResponse.id)
-//        assertNotNull(customerResponse.createdAt)
-//        assertNotNull(customerResponse.updatedAt)
-//        assertEquals("customer_test@email.com", customerResponse.email)
-//        assertEquals("customer_test", customerResponse.name)
-//        assertEquals("12345678", customerResponse.document)
-//        assertEquals("2022-10-14", customerResponse.birthDate.toString())
-//        assertEquals(HttpStatus.OK, response.status)
-//    }
+    @Test
+    @Order(7)
+    fun `should find customers success when receive valid customerId and user token owner`(){
+        val request: HttpRequest<*> = HttpRequest.GET<Any>("/customers").bearerAuth(userAccessToken)
+        val response = httpClient.toBlocking().exchange(request, Argument.listOf(Page::class.java))
 
+        assertNotNull(response)
+        val customers = response.body.get().first() as Page<CustomerResponse>
+        assertNotNull(customers)
+        assertFalse(customers.isEmpty)
+        assertFalse(customers.content.isEmpty())
+        assertTrue(customers.content.size == 1)
+        assertEquals(HttpStatus.OK, response.status)
+    }
+
+    @Test
+    @Order(8)
+    fun `should find customers must return no content when receive valid customerId and usertoken owner without customers`(){
+        val request: HttpRequest<*> = HttpRequest.GET<Any>("/customers").bearerAuth(anotherUserAccessToken)
+        val response = httpClient.toBlocking().exchange(request, Argument.listOf(Page::class.java))
+        assertEquals(HttpStatus.NO_CONTENT, response.status)
+    }
+
+    @Test
+    @Order(9)
+    fun `should update customer by id success when receive valid customerId and valid user token`(){
+        val requestBody = "{\"email\": \"customer_updated@email.com\", \"document\": \"updated\", \"name\": \"customer_updated\", \"birthDate\": \"1990-03-03\"}"
+        val request: MutableHttpRequest<String>? = HttpRequest.PUT("/customers/$customerId", requestBody).bearerAuth(userAccessToken)
+        val response = httpClient.toBlocking().exchange(request, Argument.listOf(CustomerResponse::class.java))
+
+        assertNotNull(response)
+        val customerResponse = response.body.get().first() as CustomerResponse
+        assertNotNull(customerResponse)
+        assertNotNull(customerResponse.id)
+        assertNotNull(customerResponse.createdAt)
+        assertNotNull(customerResponse.updatedAt)
+        assertEquals("customer_updated@email.com", customerResponse.email)
+        assertEquals("customer_updated", customerResponse.name)
+        assertEquals("updated", customerResponse.document)
+        assertEquals("1990-03-03", customerResponse.birthDate.toString())
+        assertEquals(HttpStatus.OK, response.status)
+    }
+
+    @Test
+    @Order(10)
+    fun `should delete customer by id success when receive valid customerId and user token owner`(){
+        val request: HttpRequest<*> = HttpRequest.DELETE<Any>("/customers/$customerId").bearerAuth(userAccessToken)
+        val response = httpClient.toBlocking().exchange(request, Argument.listOf(Page::class.java))
+        assertEquals(HttpStatus.NO_CONTENT, response.status)
+    }
 }
