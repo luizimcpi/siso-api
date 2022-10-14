@@ -82,7 +82,7 @@ class UserControllerTest {
             httpClient.toBlocking().exchange(request, Argument.listOf(UserResponse::class.java))
         }
 
-        assertEquals("Client '/': Conflict", thrown.message)
+        assertEquals("Usuário já existente com e-mail: teste@email.com.", thrown.message)
         assertEquals(HttpStatus.CONFLICT, thrown.status)
     }
 

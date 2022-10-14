@@ -15,6 +15,9 @@ import jakarta.inject.Singleton
 class ConflictExceptionHandler :
     ExceptionHandler<ConflictException?, HttpResponse<Any>> {
     override fun handle(request: HttpRequest<*>?, exception: ConflictException?): HttpResponse<Any> {
+        if (exception != null) {
+            return HttpResponse.status<Any?>(CONFLICT).body(ErrorMessageResponse(exception.message!!))
+        }
         return HttpResponse.status<Any?>(CONFLICT)
     }
 }

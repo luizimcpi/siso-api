@@ -1,11 +1,10 @@
 package com.siso.model.entity
 
 import io.micronaut.core.annotation.Introspected
-import org.hibernate.annotations.GenericGenerator
-import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity(name = "roles")
@@ -13,9 +12,8 @@ import javax.persistence.Id
 data class Role (
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    val id: UUID? = null,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
 
     @Column
     val name: String
