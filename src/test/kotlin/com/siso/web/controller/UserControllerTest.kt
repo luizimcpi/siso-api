@@ -184,5 +184,20 @@ class UserControllerTest {
         val response = httpClient.toBlocking().exchange(request, Argument.listOf(UserResponse::class.java))
 
         assertEquals(HttpStatus.OK, response.status)
+
+    }
+
+    @Test
+    @Order(10)
+    fun `should user login success after update password`(){
+        val requestLoginBody = "{\"username\": \"teste@email.com\", \"password\": \"Teste1234\"}"
+        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/login", requestLoginBody)
+        val responseLogin =  httpClient.toBlocking().exchange(requestLogin, Argument.listOf(LoginOutputDto::class.java))
+
+        val loginOutputDto = responseLogin.body.get().first() as LoginOutputDto
+        val userAccessToken = loginOutputDto.accessToken
+
+        assertEquals(HttpStatus.OK, responseLogin.status)
+        assertNotNull(userAccessToken)
     }
 }
