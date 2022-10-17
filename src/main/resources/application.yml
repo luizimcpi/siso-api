@@ -47,3 +47,4 @@ netty:
 
 jackson:
   date-format: yyyy-MM-dd HH:mm:ss
+  property-naming-strategy: SNAKE_CASE

@@ -129,4 +129,60 @@ class UserControllerTest {
     }
 
 
+    @Test
+    @Order(6)
+    fun `should update user password success when receive valid body and valid admin user token`(){
+        val requestBody = "{\"old_password\": \"Mudar@123\", \"new_password\": \"Teste1234\", \"new_password_confirmation\": \"Teste1234\"}"
+        val request: MutableHttpRequest<String>? = HttpRequest.PATCH("/users/password", requestBody).bearerAuth(accessToken)
+        val response = httpClient.toBlocking().exchange(request, Argument.listOf(UserResponse::class.java))
+
+        assertEquals(HttpStatus.OK, response.status)
+    }
+
+    @Test
+    @Order(7)
+    fun `should update user password fail when receive invalid body with different passwords and valid admin user token`(){
+        val requestBody = "{\"old_password\": \"Teste1234\", \"new_password\": \"Mudar@1234\", \"new_password_confirmation\": \"1234@Mudar\"}"
+        val request: MutableHttpRequest<String>? = HttpRequest.PATCH("/users/password", requestBody).bearerAuth(accessToken)
+
+
+        val thrown = assertThrows<HttpClientResponseException> {
+            httpClient.toBlocking().exchange(request, Argument.listOf(UserResponse::class.java))
+        }
+
+        assertEquals("Novas senhas não são iguais.", thrown.message)
+        assertEquals(HttpStatus.BAD_REQUEST, thrown.status)
+    }
+
+    @Test
+    @Order(8)
+    fun `should update user password fail when receive invalid body with different actual password and valid admin user token`(){
+        val requestBody = "{\"old_password\": \"Teste123456\", \"new_password\": \"Mudar@1234\", \"new_password_confirmation\": \"Mudar@1234\"}"
+        val request: MutableHttpRequest<String>? = HttpRequest.PATCH("/users/password", requestBody).bearerAuth(accessToken)
+
+
+        val thrown = assertThrows<HttpClientResponseException> {
+            httpClient.toBlocking().exchange(request, Argument.listOf(UserResponse::class.java))
+        }
+
+        assertEquals("Senha atual não confere.", thrown.message)
+        assertEquals(HttpStatus.BAD_REQUEST, thrown.status)
+    }
+
+    @Test
+    @Order(9)
+    fun `should update user password success when receive valid body and valid user token`(){
+        val requestLoginBody = "{\"username\": \"teste@email.com\", \"password\": \"12345678\"}"
+        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/login", requestLoginBody)
+        val responseLogin =  httpClient.toBlocking().exchange(requestLogin, Argument.listOf(LoginOutputDto::class.java))
+
+        val loginOutputDto = responseLogin.body.get().first() as LoginOutputDto
+        val userAccessToken = loginOutputDto.accessToken
+
+        val requestBody = "{\"old_password\": \"12345678\", \"new_password\": \"Teste1234\", \"new_password_confirmation\": \"Teste1234\"}"
+        val request: MutableHttpRequest<String>? = HttpRequest.PATCH("/users/password", requestBody).bearerAuth(userAccessToken)
+        val response = httpClient.toBlocking().exchange(request, Argument.listOf(UserResponse::class.java))
+
+        assertEquals(HttpStatus.OK, response.status)
+    }
 }
