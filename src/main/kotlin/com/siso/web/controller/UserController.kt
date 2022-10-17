@@ -2,15 +2,19 @@ package com.siso.web.controller
 
 import com.siso.exception.ConflictException
 import com.siso.model.entity.RolesConstants.ROLE_ADMIN
+import com.siso.model.entity.RolesConstants.ROLE_USER
 import com.siso.model.entity.toUserResponse
 import com.siso.service.UserService
+import com.siso.web.dto.request.UserPasswordResetRequest
 import com.siso.web.dto.request.UserRequest
 import com.siso.web.dto.response.UserResponse
+import io.micronaut.core.annotation.Nullable
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Patch
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Produces
 import io.micronaut.security.annotation.Secured
@@ -18,6 +22,7 @@ import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
+import java.security.Principal
 import javax.validation.Valid
 
 @Validated
@@ -41,6 +46,22 @@ class UserController(private val userService: UserService) {
         val savedUser = userService.save(userRequest)
         log.info("Usuário email ${savedUser.email} criado com sucesso")
         return HttpResponse.created(toUserResponse(savedUser))
+    }
+
+    @Patch("/password")
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    fun updatePassword(@Body @Valid userPasswordResetRequest: UserPasswordResetRequest,
+                       @Nullable principal: Principal): HttpResponse<Any> {
+        log.info("Buscando usuário com email: ${principal.name} para alterar a senha")
+
+        val user = userService.findByEmail(principal.name)
+        if(user.isPresent) {
+            userService.update(user.get(), userPasswordResetRequest)
+            return HttpResponse.ok()
+        }
+        return HttpResponse.unauthorized()
+
+        return HttpResponse.ok()
     }
 
     @Produces(MediaType.TEXT_PLAIN)

@@ -87,7 +87,7 @@ class CustomerControllerTest {
     @Test
     @Order(1)
     fun `should create customer success when receive valid body and valid user token`(){
-        val requestBody = "{\"email\": \"customer_test@email.com\", \"document\": \"12345678\", \"name\": \"customer_test\", \"birthDate\": \"2022-10-14\"}"
+        val requestBody = "{\"email\": \"customer_test@email.com\", \"document\": \"12345678\", \"name\": \"customer_test\", \"birth_date\": \"2022-10-14\"}"
         val request: MutableHttpRequest<String>? = HttpRequest.POST("/customers", requestBody).bearerAuth(userAccessToken)
         val response = httpClient.toBlocking().exchange(request, Argument.listOf(CustomerResponse::class.java))
 
@@ -108,7 +108,7 @@ class CustomerControllerTest {
     @Test
     @Order(2)
     fun `should return unauthorized when try create customer without admin or user token`(){
-        val requestBody = "{\"email\": \"customer_test@email.com\", \"document\": \"12345678\", \"name\": \"customer_test\", \"birthDate\": \"2022-10-14\"}"
+        val requestBody = "{\"email\": \"customer_test@email.com\", \"document\": \"12345678\", \"name\": \"customer_test\", \"birth_date\": \"2022-10-14\"}"
         val request: MutableHttpRequest<String>? =
             HttpRequest.POST("/customers", requestBody)
 
@@ -122,7 +122,7 @@ class CustomerControllerTest {
     @Test
     @Order(3)
     fun `should return forbidden when try create customer with admin token`(){
-        val requestBody = "{\"email\": \"customer_test@email.com\", \"document\": \"12345678\", \"name\": \"customer_test\", \"birthDate\": \"2022-10-14\"}"
+        val requestBody = "{\"email\": \"customer_test@email.com\", \"document\": \"12345678\", \"name\": \"customer_test\", \"birth_date\": \"2022-10-14\"}"
         val request: MutableHttpRequest<String>? = HttpRequest.POST("/customers", requestBody).bearerAuth(adminAccessToken)
 
         val thrown = assertThrows<HttpClientResponseException> {
@@ -135,7 +135,7 @@ class CustomerControllerTest {
     @Test
     @Order(4)
     fun `should return bad request when create customer with invalid email`(){
-        val requestBody = "{\"email\": \"customer_test\", \"document\": \"12345678\", \"name\": \"customer_test\", \"birthDate\": \"2022-10-14\"}"
+        val requestBody = "{\"email\": \"customer_test\", \"document\": \"12345678\", \"name\": \"customer_test\", \"birth_date\": \"2022-10-14\"}"
         val request: MutableHttpRequest<String>? =
             HttpRequest.POST("/customers", requestBody).bearerAuth(userAccessToken)
 
@@ -204,7 +204,7 @@ class CustomerControllerTest {
     @Test
     @Order(9)
     fun `should update customer by id success when receive valid customerId and valid user token`(){
-        val requestBody = "{\"email\": \"customer_updated@email.com\", \"document\": \"updated\", \"name\": \"customer_updated\", \"birthDate\": \"1990-03-03\"}"
+        val requestBody = "{\"email\": \"customer_updated@email.com\", \"document\": \"updated\", \"name\": \"customer_updated\", \"birth_date\": \"1990-03-03\"}"
         val request: MutableHttpRequest<String>? = HttpRequest.PUT("/customers/$customerId", requestBody).bearerAuth(userAccessToken)
         val response = httpClient.toBlocking().exchange(request, Argument.listOf(CustomerResponse::class.java))
 
