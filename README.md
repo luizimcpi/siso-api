@@ -139,3 +139,15 @@ curl --location --request GET 'localhost:9001/customers?size=20&page=0' \
 curl --location --request GET 'localhost:9001/customers/search?name=Maria' \
 --header 'Authorization: Bearer {user_token}'
 ```
+
+### Update User Password
+```
+curl --location --request PATCH 'localhost:9001/users/password' \
+--header 'Authorization: Bearer {user_token}' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "old_password": "Mudar@123",
+    "new_password": "Teste1234",
+    "new_password_confirmation": "Teste1234"
+}'
+```
