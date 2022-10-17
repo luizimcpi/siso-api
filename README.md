@@ -1,4 +1,6 @@
 # SISO-API
+[![Maven CI/CD](https://github.com/luizimcpi/siso-api/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/luizimcpi/siso-api/actions/workflows/main.yml)
+
 ## Micronaut 3.7.1 Documentation
 
 - [User Guide](https://docs.micronaut.io/3.7.1/guide/index.html)
