@@ -10,15 +10,11 @@ import com.siso.web.dto.request.UserRequest
 import com.siso.web.dto.response.UserResponse
 import io.micronaut.core.annotation.Nullable
 import io.micronaut.http.HttpResponse
-import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Patch
 import io.micronaut.http.annotation.Post
-import io.micronaut.http.annotation.Produces
 import io.micronaut.security.annotation.Secured
-import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.rules.SecurityRule
 import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
@@ -60,13 +56,6 @@ class UserController(private val userService: UserService) {
             return HttpResponse.ok()
         }
         return HttpResponse.unauthorized()
-
-        return HttpResponse.ok()
     }
 
-    @Produces(MediaType.TEXT_PLAIN)
-    @Get("/authenticated")
-    fun authenticated(authentication: Authentication): String? {
-        return authentication.name + " is authenticated"
-    }
 }

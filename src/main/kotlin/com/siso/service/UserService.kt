@@ -28,7 +28,7 @@ class UserService(private val userRepository: UserRepository,
             password = passwordEncoder.encode(userRequest.password),
             active = true,
             passwordReset = true,
-            role = roleUser
+            roles = setOf(roleUser)
         )
 
        return userRepository.save(user)

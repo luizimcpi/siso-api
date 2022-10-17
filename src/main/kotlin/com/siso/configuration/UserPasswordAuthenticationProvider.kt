@@ -26,12 +26,19 @@ class UserPasswordAuthenticationProvider (private val passwordEncoder: BCryptPas
             throw AuthenticationException(AuthenticationFailed("Usuário não encontrado com e-mail: ${authenticationRequest.identity} informado."))
         }
 
-        var userRole = roleRepository.findById(user.role.id!!).get().name
+//        var userRoles = user.roles.map { userRole ->
+//            roleRepository.findById(userRole.id).map {
+//                it.name
+//            }.get()
+//        }.toSet()
+//        var userRole = roleRepository.findById(user.role.id!!).get().name
+
+        var userRoles = user.roles.map { it.name }
 
         return Flux.create({ emitter: FluxSink<AuthenticationResponse> ->
             if (authenticationRequest.identity == user.email &&
                 passwordEncoder.matches(authenticationRequest.secret as String, user.password)) {
-                emitter.next(AuthenticationResponse.success(authenticationRequest.identity as String, listOf(userRole)))
+                emitter.next(AuthenticationResponse.success(authenticationRequest.identity as String, userRoles))
                 emitter.complete()
             } else {
                 emitter.error(AuthenticationResponse.exception())

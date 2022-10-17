@@ -6,6 +6,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.ManyToMany
 
 @Entity(name = "roles")
 @Introspected
@@ -16,6 +17,8 @@ data class Role (
     var id: Long? = null,
 
     @Column
-    val name: String
+    val name: String,
 
+    @ManyToMany(mappedBy = "roles")
+    val user: Set<CustomUser>
 )
