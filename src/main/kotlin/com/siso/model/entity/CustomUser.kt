@@ -5,7 +5,6 @@ import io.micronaut.core.annotation.Introspected
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -44,13 +43,12 @@ data class CustomUser(
         @UpdateTimestamp
         val updatedAt: LocalDateTime? = null,
 
-        @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(name = "user_role",
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
         )
-        val roles: Set<Role> = emptySet()
-
+        val roles: Collection<Role>
 )
 
 fun toUserResponse(savedUser: CustomUser) : UserResponse =

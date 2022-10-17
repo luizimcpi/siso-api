@@ -20,5 +20,5 @@ data class Role (
     val name: String,
 
     @ManyToMany(mappedBy = "roles")
-    val user: Set<CustomUser>
+    val user: Collection<CustomUser>
 )
