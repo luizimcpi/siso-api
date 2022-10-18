@@ -61,7 +61,7 @@ docker-compose up
 
 ### Login
 ```
-curl --location --request POST 'localhost:9001/login' \
+curl --location --request POST 'localhost:9001/oauth/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "username": "teste@gmail.com",
