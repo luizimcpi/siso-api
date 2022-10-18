@@ -49,7 +49,7 @@ class OauthAccessTokenTest {
         val username = "luizimcpi@gmail.com"
 
         val creds = UsernamePasswordCredentials(username, "Mudar@123")
-        val request: HttpRequest<*> = HttpRequest.POST("/login", creds)
+        val request: HttpRequest<*> = HttpRequest.POST("/oauth/login", creds)
 
         val oldTokenCount = refreshTokenRepository.count()
         val rsp: BearerAccessRefreshToken = client.toBlocking().retrieve(request, BearerAccessRefreshToken::class.java)

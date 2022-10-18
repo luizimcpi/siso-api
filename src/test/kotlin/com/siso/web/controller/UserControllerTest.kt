@@ -44,7 +44,7 @@ class UserControllerTest {
         flyway.migrate()
 
         val requestLoginBody = "{\"username\": \"luizimcpi@gmail.com\", \"password\": \"Mudar@123\"}"
-        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/login", requestLoginBody)
+        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/oauth/login", requestLoginBody)
         val responseLogin =  httpClient.toBlocking().exchange(requestLogin, Argument.listOf(LoginOutputDto::class.java))
 
         val loginOutputDto = responseLogin.body.get().first() as LoginOutputDto
@@ -175,7 +175,7 @@ class UserControllerTest {
     @Order(9)
     fun `should update user password success when receive valid body and valid user token`(){
         val requestLoginBody = "{\"username\": \"teste@email.com\", \"password\": \"12345678\"}"
-        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/login", requestLoginBody)
+        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/oauth/login", requestLoginBody)
         val responseLogin =  httpClient.toBlocking().exchange(requestLogin, Argument.listOf(LoginOutputDto::class.java))
 
         val loginOutputDto = responseLogin.body.get().first() as LoginOutputDto
@@ -193,7 +193,7 @@ class UserControllerTest {
     @Order(10)
     fun `should user login success after update password`(){
         val requestLoginBody = "{\"username\": \"teste@email.com\", \"password\": \"Teste1234\"}"
-        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/login", requestLoginBody)
+        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/oauth/login", requestLoginBody)
         val responseLogin =  httpClient.toBlocking().exchange(requestLogin, Argument.listOf(LoginOutputDto::class.java))
 
         val loginOutputDto = responseLogin.body.get().first() as LoginOutputDto

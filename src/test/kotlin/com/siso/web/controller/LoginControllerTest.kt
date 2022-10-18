@@ -44,7 +44,7 @@ class LoginControllerTest {
     @Test
     fun uponSuccessfulAuthenticationUserGetsAccessTokenAndRefreshToken() {
         val requestLoginBody = "{\"username\": \"luizimcpi@gmail.com\", \"password\": \"Mudar@123\"}"
-        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/login", requestLoginBody)
+        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/oauth/login", requestLoginBody)
         val responseLogin =  httpClient.toBlocking().exchange(requestLogin, Argument.listOf(LoginOutputDto::class.java))
 
         val loginOutputDto = responseLogin.body.get().first() as LoginOutputDto

@@ -50,7 +50,7 @@ class CustomerControllerTest {
         flyway.migrate()
 
         val requestLoginBody = "{\"username\": \"luizimcpi@gmail.com\", \"password\": \"Mudar@123\"}"
-        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/login", requestLoginBody)
+        val requestLogin: HttpRequest<Any> = HttpRequest.POST("/oauth/login", requestLoginBody)
         val responseLogin =  httpClient.toBlocking().exchange(requestLogin, Argument.listOf(LoginOutputDto::class.java))
 
         val loginAdminOutputDto = responseLogin.body.get().first() as LoginOutputDto
@@ -61,7 +61,7 @@ class CustomerControllerTest {
         httpClient.toBlocking().exchange(request, Argument.listOf(UserResponse::class.java))
 
         val requestUserLoginBody = "{\"username\": \"teste@email.com\", \"password\": \"12345678\"}"
-        val requestUserLogin: HttpRequest<Any> = HttpRequest.POST("/login", requestUserLoginBody)
+        val requestUserLogin: HttpRequest<Any> = HttpRequest.POST("/oauth/login", requestUserLoginBody)
         val responseUserLogin =  httpClient.toBlocking().exchange(requestUserLogin, Argument.listOf(LoginOutputDto::class.java))
 
         val loginUserOutputDto = responseUserLogin.body.get().first() as LoginOutputDto
@@ -72,7 +72,7 @@ class CustomerControllerTest {
         httpClient.toBlocking().exchange(requestAnotherUser, Argument.listOf(UserResponse::class.java))
 
         val requestAnotherUserLoginBody = "{\"username\": \"teste1@email.com\", \"password\": \"12345678\"}"
-        val requestAnotherUserLogin: HttpRequest<Any> = HttpRequest.POST("/login", requestAnotherUserLoginBody)
+        val requestAnotherUserLogin: HttpRequest<Any> = HttpRequest.POST("/oauth/login", requestAnotherUserLoginBody)
         val responseAnotherUserLogin =  httpClient.toBlocking().exchange(requestAnotherUserLogin, Argument.listOf(LoginOutputDto::class.java))
 
         val loginAnotherUserOutputDto = responseAnotherUserLogin.body.get().first() as LoginOutputDto
