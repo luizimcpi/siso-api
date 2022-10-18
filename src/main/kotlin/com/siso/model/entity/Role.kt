@@ -3,6 +3,7 @@ package com.siso.model.entity
 import io.micronaut.core.annotation.Introspected
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
@@ -19,6 +20,6 @@ data class Role (
     @Column
     val name: String,
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     val user: Collection<CustomUser>
 )

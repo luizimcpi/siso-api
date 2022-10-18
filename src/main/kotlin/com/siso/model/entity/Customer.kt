@@ -45,7 +45,11 @@ data class Customer(
     @Column(name = "updated_at")
     @UpdateTimestamp
     val updatedAt: LocalDateTime? = null,
-)
+){
+    override fun toString(): String {
+        return super.toString()
+    }
+}
 
 fun toCustomerResponse(savedCustomer: Customer) : CustomerResponse =
     CustomerResponse(

@@ -1,6 +1,5 @@
 package com.siso.configuration
 
-import com.siso.repository.RoleRepository
 import com.siso.repository.UserRepository
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.AuthenticationException
@@ -15,8 +14,7 @@ import reactor.core.publisher.FluxSink
 
 @Singleton
 class UserPasswordAuthenticationProvider (private val passwordEncoder: BCryptPasswordEncoderService,
-                                          private val userRepository: UserRepository,
-                                          private val roleRepository: RoleRepository,
+                                          private val userRepository: UserRepository
                                           ): AuthenticationProvider {
     override fun authenticate(httpRequest: HttpRequest<*>?,
                               authenticationRequest: AuthenticationRequest<*, *>

@@ -12,6 +12,7 @@ import io.micronaut.core.annotation.Nullable
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Patch
 import io.micronaut.http.annotation.Post
 import io.micronaut.security.annotation.Secured
@@ -56,6 +57,13 @@ class UserController(private val userService: UserService) {
             return HttpResponse.ok()
         }
         return HttpResponse.unauthorized()
+    }
+
+    @Delete("/{id}")
+    @Secured(ROLE_ADMIN)
+    fun deleteUser(id: Long): HttpResponse<Any>{
+        userService.deleteById(id)
+        return HttpResponse.noContent()
     }
 
 }
