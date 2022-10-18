@@ -19,4 +19,6 @@ interface CustomerRepository: JpaRepository<Customer, Long> {
 
     fun deleteByIdAndUserId(id: Long, userId: Long)
 
+    fun deleteAllByUserId(userId: Long)
+
 }

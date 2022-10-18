@@ -16,6 +16,7 @@ import java.util.Optional
 @Singleton
 class UserService(private val userRepository: UserRepository,
                   private val roleRepository: RoleRepository,
+                  private val customerService: CustomerService,
                   private val passwordEncoder: BCryptPasswordEncoderService) {
 
     private val log = LoggerFactory.getLogger(this::class.java)
@@ -32,8 +33,7 @@ class UserService(private val userRepository: UserRepository,
             password = passwordEncoder.encode(userRequest.password),
             active = true,
             passwordReset = true,
-            roles = setOf(roleUser),
-            customers = emptyList()
+            roles = setOf(roleUser)
         )
 
        return userRepository.save(user)
@@ -55,8 +55,12 @@ class UserService(private val userRepository: UserRepository,
         val user = userRepository.findById(id)
 
         if(user.isPresent){
-            log.info("Usuário com id $id encontrado iniciando remoção")
+            log.info("Usuário com id $id encontrado iniciando remoção de customers")
+            customerService.deleteAllByUserId(id)
+            log.info("Iniciando remoção do usuário.")
             userRepository.deleteById(id)
+            log.info("Processo de deleção completado.")
+            return
         }
         log.info("Usuário com id $id não encontrado.")
         throw NotFoundException("Não foi encontrado usuário com id $id.")

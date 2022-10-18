@@ -14,7 +14,6 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
-import javax.persistence.OneToMany
 
 @Entity(name = "users")
 @Introspected
@@ -49,10 +48,7 @@ data class CustomUser(
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
         )
-        val roles: Set<Role>,
-
-        @OneToMany
-        val customers: List<Customer>
+        val roles: Set<Role>
 )
 
 fun toUserResponse(savedUser: CustomUser) : UserResponse =

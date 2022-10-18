@@ -36,6 +36,7 @@ class UserControllerTest {
     lateinit var flyway: Flyway
 
     private lateinit var accessToken: String
+    private var userId: Long = 0
 
     @BeforeAll
     fun setUp(){
@@ -66,6 +67,7 @@ class UserControllerTest {
         val userResponse = response.body.get().first() as UserResponse
         assertNotNull(userResponse)
         assertNotNull(userResponse.id)
+        userId = userResponse.id
         assertNotNull(userResponse.createdAt)
         assertNotNull(userResponse.updatedAt)
         assertEquals("teste@email.com", userResponse.email)
@@ -199,5 +201,14 @@ class UserControllerTest {
 
         assertEquals(HttpStatus.OK, responseLogin.status)
         assertNotNull(userAccessToken)
+    }
+
+    @Test
+    @Order(11)
+    fun `should delete user by id success with admin token`(){
+        val request: MutableHttpRequest<String>? = HttpRequest.DELETE("/users/$userId")
+        request!!.header("Authorization", "Bearer $accessToken")
+        val response = httpClient.toBlocking().exchange(request, Argument.listOf(UserResponse::class.java))
+        assertEquals(HttpStatus.NO_CONTENT, response.status)
     }
 }

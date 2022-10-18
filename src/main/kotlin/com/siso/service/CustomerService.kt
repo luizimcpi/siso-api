@@ -76,4 +76,8 @@ class CustomerService(private val customerRepository: CustomerRepository) {
         }
         throw NotFoundException("Customer not found with id $id")
     }
+
+    fun deleteAllByUserId(userId: Long) {
+        customerRepository.deleteAllByUserId(userId)
+    }
 }
