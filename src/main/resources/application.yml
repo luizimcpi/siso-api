@@ -8,7 +8,7 @@ micronaut:
 #      configurations:
 #        web:
 #          allowedOrigins:
-#            - *front-end-enpdpoint*
+#            - http://localhost:3000
 #          allowedHeaders:
 #            - Content-Type
 #          allowedMethods:
@@ -22,6 +22,7 @@ micronaut:
     endpoints:
       login:
         enabled: true
+        path: /oauth/login
     authentication: bearer
     token:
       jwt:
