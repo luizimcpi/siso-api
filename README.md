@@ -99,7 +99,7 @@ curl --location --request POST 'localhost:9001/customers' \
     "name": "customer teste",
     "document": "44444411111",
     "email": "customer@gmail.com",
-    "birthDate": "1990-03-03"
+    "birth_date": "1990-03-03"
 }'
 ```
 
@@ -124,7 +124,7 @@ curl --location --request PUT 'localhost:9001/customers/1' \
     "name": "customer teste Alterado ",
     "document": "11111111111 alterado",
     "email": "customer-alterado@gmail.com",
-    "birthDate": "2019-01-14"
+    "birth_date": "2019-01-14"
 }'
 ```
 
