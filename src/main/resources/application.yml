@@ -3,6 +3,8 @@ micronaut:
     name: siso
   server:
     port: 9001
+    cors:
+      enabled: true
   security:
     endpoints:
       login:
