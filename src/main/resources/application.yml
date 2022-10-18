@@ -5,6 +5,19 @@ micronaut:
     port: 9001
     cors:
       enabled: true
+#      configurations:
+#        web:
+#          allowedOrigins:
+#            - *front-end-enpdpoint*
+#          allowedHeaders:
+#            - Content-Type
+#          allowedMethods:
+#            - POST
+#            - GET
+#            - OPTIONS
+#            - DELETE
+#            - PUT
+#            - PATCH
   security:
     endpoints:
       login:
