@@ -3,23 +3,22 @@ package com.siso.model.entity
 import io.micronaut.core.annotation.Introspected
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
-import javax.persistence.ManyToMany
 
-@Entity(name = "roles")
+@Entity(name = "user_role")
 @Introspected
-data class Role (
+data class UserRole(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    val id: Long? = null,
 
-    @Column
-    val name: String,
+    @Column(name = "user_id")
+    val  userId: Long,
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    val user: Collection<CustomUser>
+    @Column(name = "role_id")
+    val  roleId: Long
+
 )

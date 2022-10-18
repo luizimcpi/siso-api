@@ -1,6 +1,5 @@
 package com.siso.configuration
 
-import com.siso.repository.RoleRepository
 import com.siso.repository.UserRepository
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.AuthenticationException
@@ -15,8 +14,7 @@ import reactor.core.publisher.FluxSink
 
 @Singleton
 class UserPasswordAuthenticationProvider (private val passwordEncoder: BCryptPasswordEncoderService,
-                                          private val userRepository: UserRepository,
-                                          private val roleRepository: RoleRepository,
+                                          private val userRepository: UserRepository
                                           ): AuthenticationProvider {
     override fun authenticate(httpRequest: HttpRequest<*>?,
                               authenticationRequest: AuthenticationRequest<*, *>
@@ -26,12 +24,12 @@ class UserPasswordAuthenticationProvider (private val passwordEncoder: BCryptPas
             throw AuthenticationException(AuthenticationFailed("Usuário não encontrado com e-mail: ${authenticationRequest.identity} informado."))
         }
 
-        var userRole = roleRepository.findById(user.role.id!!).get().name
+        var userRoles = user.roles.map { it.name }
 
         return Flux.create({ emitter: FluxSink<AuthenticationResponse> ->
             if (authenticationRequest.identity == user.email &&
                 passwordEncoder.matches(authenticationRequest.secret as String, user.password)) {
-                emitter.next(AuthenticationResponse.success(authenticationRequest.identity as String, listOf(userRole)))
+                emitter.next(AuthenticationResponse.success(authenticationRequest.identity as String, userRoles))
                 emitter.complete()
             } else {
                 emitter.error(AuthenticationResponse.exception())
