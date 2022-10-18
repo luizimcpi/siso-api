@@ -46,7 +46,7 @@ class UserService(private val userRepository: UserRepository,
         if(userPasswordResetRequest.newPassword != userPasswordResetRequest.newPasswordConfirmation) {
             throw BadRequestException("Novas senhas não são iguais.")
         }
-        val userToUpdate = user.copy(password = passwordEncoder.encode(userPasswordResetRequest.newPassword))
+        val userToUpdate = user.copy(password = passwordEncoder.encode(userPasswordResetRequest.newPassword), passwordReset = false)
         userRepository.update(userToUpdate)
     }
 
